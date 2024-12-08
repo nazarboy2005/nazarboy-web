@@ -38,7 +38,15 @@
     ======================================================== -->
 </head>
 
-<body class="{% if request.path == '/' %}index-page{% elif request.path == '/resume/' %}resume-page{% elif request.path == '/about/' %}about-page{% endif %}">
+<body class="{% if request.path == '/' %}index-page
+{% elif request.path == '/resume/' %}resume-page
+{% elif request.path == '/about/' %}about-page
+{% elif request.path == '/contact/' %}contact-page
+{% elif request.path == '/portfolio/' %}portfolio-page
+{% elif request.path == '/portfolio/details/' %}portfolio-details-page
+{% elif request.path == '/service/' %}services-page
+{% elif request.path == '/service/details/' %}service-details-page
+{% endif %}">
 
 {% include 'bases/header.html' %}
 
