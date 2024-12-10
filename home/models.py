@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.exceptions import ValidationError
 
 # ----------------Home Page Model----------------#
 
@@ -135,7 +135,7 @@ class InterestsModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.interest
+        return self.name
 
     class Meta:
         verbose_name = 'Interest'
@@ -159,3 +159,10 @@ class TestimonialsModel(models.Model):
     class Meta:
         verbose_name = 'Testimonial'
         verbose_name_plural = 'Testimonials'
+
+
+
+
+
+
+
