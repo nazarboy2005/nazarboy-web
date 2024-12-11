@@ -10,7 +10,7 @@
                 <div class="row d-flex justify-content-center text-center">
                     <div class="col-lg-8">
                         <h1>About</h1>
-                        <p class="mb-0">{{bio}}</p>
+                        <p class="mb-0">{{data.bio}}</p>
                     </div>
                 </div>
             </div>
@@ -32,12 +32,12 @@
 
             <div class="row gy-4 justify-content-center">
                 <div class="col-lg-4">
-                    <img src="{{image_on_the_left.url}}" class="img-fluid" alt="">
+                    <img src="{{data.image_on_the_left.url}}" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-8 content">
-                    <h2>{{profession}}</h2>
+                    <h2>{{data.profession}}</h2>
                     <p class="fst-italic py-3">
-                        {{text_above_bio}}
+                        {{data.text_above_bio}}
                     </p>
                     <div class="row">
                         <div class="col-lg-6">
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     <p class="py-3">
-                        {{text_below_bio}}
+                        {{data.text_below_bio}}
                     </p>
                 </div>
             </div>
@@ -68,58 +68,59 @@
     </section><!-- /About Section -->
 
     <!-- Stats Section -->
+    {% if data.number_for_smile and data.text_for_smile  or data.text_for_headphones and data.number_for_headphones or data.text_for_people and data.number_for_people or data.text_for_notebook and data.number_for_notebook%}
     <section id="stats" class="stats section">
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 
             <div class="row gy-4">
-                {% if text_for_smile and number_for_smile%}
+                {% if data.text_for_smile and data.number_for_smile %}
                 <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
                     <i class="bi bi-emoji-smile"></i>
                     <div class="stats-item">
-                        <span data-purecounter-start="0" data-purecounter-end="{{number_for_smile}}"
+                        <span data-purecounter-start="0" data-purecounter-end="{{data.number_for_smile}}"
                               data-purecounter-duration="1"
                               class="purecounter"></span>
-                        <p>{{text_for_smile}}</p>
+                        <p>{{data.text_for_smile}}</p>
                     </div>
                 </div><!-- End Stats Item -->
                 {% endif %}
 
 
-                {% if text_for_headphones and number_for_headphones%}
+                {% if data.text_for_notebook and data.number_for_notebook%}
                 <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
                     <i class="bi bi-journal-richtext"></i>
                     <div class="stats-item">
-                        <span data-purecounter-start="0" data-purecounter-end="{{number_for_notebook}}"
+                        <span data-purecounter-start="0" data-purecounter-end="{{data.number_for_notebook}}"
                               data-purecounter-duration="1"
                               class="purecounter"></span>
-                        <p>{{text_for_notebook}}</p>
+                        <p>{{data.text_for_notebook}}</p>
                     </div>
                 </div><!-- End Stats Item -->
                 {% endif %}
 
 
-                {% if text_for_people and number_for_people%}
+                {% if data.text_for_people and data.number_for_people%}
                 <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
                     <i class="bi bi-headset"></i>
                     <div class="stats-item">
-                        <span data-purecounter-start="0" data-purecounter-end="{{number_for_headphones}}"
+                        <span data-purecounter-start="0" data-purecounter-end="{{data.number_for_headphones}}"
                               data-purecounter-duration="1"
                               class="purecounter"></span>
-                        <p>{{text_for_headphones}}</p>
+                        <p>{{data.text_for_headphones}}</p>
                     </div>
                 </div><!-- End Stats Item -->
                 {% endif %}
 
 
-                {% if text_for_people and number_for_people%}
+                {% if data.text_for_people and data.number_for_people%}
                 <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
                     <i class="bi bi-people"></i>
                     <div class="stats-item">
-                        <span data-purecounter-start="0" data-purecounter-end="{{number_for_people}}"
+                        <span data-purecounter-start="0" data-purecounter-end="{{data.number_for_people}}"
                               data-purecounter-duration="1"
                               class="purecounter"></span>
-                        <p>{{text_for_people}}</p>
+                        <p>{{data.text_for_people}}</p>
                     </div>
                 </div><!-- End Stats Item -->
                 {% endif %}
@@ -128,8 +129,10 @@
         </div>
 
     </section><!-- /Stats Section -->
+    {% endif %}
 
     <!-- Skills Section -->
+    {% if skills_left %}
     <section id="skills" class="skills section">
 
         <!-- Section Title -->
@@ -174,7 +177,9 @@
         </div>
 
     </section><!-- /Skills Section -->
+    {% endif %}
 
+    {% if data.interests.all %}
     <!-- Interests Section -->
     <section id="interests" class="interests section">
 
@@ -187,7 +192,7 @@
         <div class="container">
 
             <div class="row gy-4">
-                {% for interest in interests %}
+                {% for interest in data.interests.all %}
                 <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="{{forloop.counter}}00">
                     <div class="features-item">
                         <i class="bi bi-star" style="color: #ffbb2c;"></i>
@@ -200,7 +205,9 @@
         </div>
 
     </section><!-- /Interests Section -->
+    {% endif %}
 
+    {% if  data.testimonials.all%}
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials section">
 
@@ -239,7 +246,7 @@
                     }
                 </script>
                 <div class="swiper-wrapper">
-                    {% for testimonial in testimonials %}
+                    {% for testimonial in data.testimonials.all %}
                     <div class="swiper-slide">
                         <div class="testimonial-item">
                             <p>
@@ -262,6 +269,7 @@
         </div>
 
     </section><!-- /Testimonials Section -->
+    {% endif %}
 
 </main>
 {% endblock %}

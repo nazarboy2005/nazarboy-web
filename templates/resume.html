@@ -34,7 +34,7 @@
 
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                     <h3 class="resume-title">{{summary.section_title}}</h3>
-
+                    {% if summary %}
                     <div class="resume-item pb-0">
                         <h4>{{summary.name}}</h4>
                         <p><em>{{summary.long_description}}</em></p>
@@ -44,19 +44,21 @@
                             {% endfor %}
                         </ul>
                     </div><!-- Edn Resume Item -->
+                    {% endif %}
 
+                    {% if resume_data.educations.all %}
                     <h3 class="resume-title">Education</h3>
                     {% for education in resume_data.educations.all %}
                     <div class="resume-item">
                         <h4>{{education.title}}</h4>
                         {% if education.from_date %}
-                            {% if education.to_date or education.present_on %}
-                                {% if education.present_on %}
-                                    <h5>{{education.from_date|date:"M Y"}} - Present</h5>
-                                {% else %}
-                                    <h5>{{education.from_date|date:"M Y"}} - {{education.to_date|date:"M Y"}}</h5>
-                                {% endif %}
-                            {% endif %}
+                        {% if education.to_date or education.present_on %}
+                        {% if education.present_on %}
+                        <h5>{{education.from_date|date:"M Y"}} - Present</h5>
+                        {% else %}
+                        <h5>{{education.from_date|date:"M Y"}} - {{education.to_date|date:"M Y"}}</h5>
+                        {% endif %}
+                        {% endif %}
                         {% endif %}
                         <p><em>{{education.institution}}</em></p>
                         {% if education.description %}
@@ -64,8 +66,10 @@
                         {% endif %}
                     </div><!-- Edn Resume Item -->
                     {% endfor %}
-                </div>
+                    {% endif %}
 
+                </div>
+                {% if resume_data.experiences.all %}
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                     <h3 class="resume-title">Professional Experience</h3>
                     {% for work_experience in resume_data.experiences.all %}
@@ -105,6 +109,7 @@
                     </div><!-- Edn Resume Item -->
                     {% endfor %}
                 </div>
+                {% endif %}
 
             </div>
 
