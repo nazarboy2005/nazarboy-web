@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
-from home.models import HomePageModel, AboutPageModel
+from home.models import HomePageModel, AboutPageModel, SocialMediaModel
 
 class HomeView(TemplateView):
     template_name = 'index.html'
@@ -24,21 +24,6 @@ class AboutView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         data = AboutPageModel.objects.first()
-        # context['bio'] = data.bio
-        # context['profession'] = data.profession
-        # context['image_on_the_left'] = data.image_on_the_left
-        # context['text_above_bio'] = data.text_above_bio
-        # context['text_below_bio'] = data.text_below_bio
-        #
-        # context['text_for_smile'] = data.text_for_smile
-        # context['number_for_smile'] = data.number_for_smile
-        # context['text_for_notebook'] = data.text_for_notebook
-        # context['number_for_notebook'] = data.number_for_notebook
-        # context['text_for_headphones'] = data.text_for_headphones
-        # context['number_for_headphones'] = data.number_for_headphones
-        # context['text_for_people'] = data.text_for_people
-        # context['number_for_people'] = data.number_for_people
-
         biography_infos = data.biography_infos.all()
         if biography_infos:
             context['biography_infos_left'] = biography_infos[:(len(biography_infos)+1)//2]
@@ -49,11 +34,8 @@ class AboutView(TemplateView):
             context['skills_left'] = skills[:(len(skills)+1)//2]
             context['skills_right'] = skills[(len(skills)+1)//2:]
 
-        # context['interests'] = data.interests.all()
-        # context['testimonials'] = data.testimonials.all()
-
-        data2 = HomePageModel.objects.first()
-        context['social_media_apps'] = data2.social_media_apps.all()
+        social_media_apps = SocialMediaModel.objects.all()
+        context['social_media_apps'] = social_media_apps
 
         context['data']=data
         return context

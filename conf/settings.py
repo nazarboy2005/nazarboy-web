@@ -38,8 +38,8 @@ INSTALLED_APPS = [
 
     'home',
     'resume',
-    'service',
-    'portfolio',
+    'certifications',
+    'projects',
 ]
 
 MIDDLEWARE = [

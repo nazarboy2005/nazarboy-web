@@ -13,8 +13,8 @@
           <li><a href="{% url 'home:home' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
           <li><a href="{% url 'home:about' %}" class="{% if request.path == '/about/' %}active{% endif %}">About</a></li>
           <li><a href="{% url 'resume:page' %}" class="{% if request.path == '/resume/' %}active{% endif %}">Resume</a></li>
-          <li><a href="{% url 'service:page' %}" class="{% if request.path == '/service/' %}active{% endif %}">Services</a></li>
-          <li><a href="{% url 'portfolio:page' %}" class="{% if request.path == '/portfolio/' %}active{% endif %}">Portfolio</a></li>
+          <li><a href="{% url 'projects:page' %}" class="{% if request.path == '/projects/' %}active{% endif %}">Projects</a></li>
+          <li><a href="{% url 'certifications:page' %}" class="{% if request.path == '/certifications/' %}active{% endif %}">Certifications</a></li>
 <!--          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>-->
 <!--            <ul>-->
 <!--              <li><a href="#">Dropdown 1</a></li>-->
