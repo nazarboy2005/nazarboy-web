@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from projects.models import ProjectModel, CategoryModel
 from home.models import SocialMediaModel
 
+
 class ProjectsView(TemplateView):
     template_name = 'projects.html'
 
@@ -16,9 +17,14 @@ class ProjectsView(TemplateView):
         return context
 
 
-
 class ProjectDetailsView(TemplateView):
     template_name = 'project-details.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-
+        project_id = self.kwargs.get('id')
+        project = ProjectModel.objects.get(id=project_id)
+        context['project'] = project
+        context['categories'] = CategoryModel.objects.filter(to_display=True)
+        return context

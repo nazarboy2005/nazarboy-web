@@ -36,31 +36,30 @@
 
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="services-list">
-                        <a href="#" class="active">Web Design</a>
-                        <a href="#">Software Development</a>
-                        <a href="#">Product Management</a>
-                        <a href="#">Graphic Design</a>
-                        <a href="#">Marketing</a>
+                        {% for category in categories %}
+                        <a class="{% if category in project.category.all  %}active{%endif%}">{{category.name}}</a>
+                        {% endfor %}
                     </div>
 
                     <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
                         <h3>Project information</h3>
                         <ul>
-                            <li><strong>Category</strong>: Web design</li>
-                            <li><strong>Client</strong>: ASU Company</li>
-                            <li><strong>Project date</strong>: 01 March, 2020</li>
-                            <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li>
+                            {% for info in project.infos.all %}
+                            {% if info.is_url == True %}
+                            <li><strong>{{info.title}}</strong>: <a href="http://{{ info.text }}" target="_blank">{{info.text}}</a></li>
+                            {% else %}
+                            <li><strong>{{info.title}}</strong>:{{info.text}}</li>
+                            {% endif %}
+                            {% endfor %}
                         </ul>
                     </div>
                     <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
                         <h3>Applied Skills</h3>
                         <ul>
-                            <li><i class="bi bi-check-circle"></i> <span>Aut eum totam accusantium voluptatem.</span>
+                            {% for skill in project.skills.all %}
+                            <li><i class="bi bi-check-circle"></i> <span>{{skill.skill}}</span>
                             </li>
-                            <li><i class="bi bi-check-circle"></i> <span>Assumenda et porro nisi nihil nesciunt voluptatibus.</span>
-                            </li>
-                            <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea</span>
-                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -86,45 +85,20 @@
                         </script>
 
                         <div class="swiper-wrapper align-items-center">
-
+                            {% for image in project.images.all %}
                             <div class="swiper-slide">
-                                <img src="{% static 'img/portfolio/app-1.jpg' %}" alt="">
+                                <img src="{{image.image.url}}" alt="">
                             </div>
 
-                            <div class="swiper-slide">
-                                <img src="{% static 'img/portfolio/product-1.jpg' %}" alt="">
-                            </div>
-
-                            <div class="swiper-slide">
-                                <img src="{% static 'img/portfolio/branding-1.jpg' %}" alt="">
-                            </div>
-
-                            <div class="swiper-slide">
-                                <img src="{% static 'img/portfolio/books-1.jpg' %}" alt="">
-                            </div>
+                            {% endfor %}
 
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>
                     <br>
-                    <h3>Temporibus et in vero dicta aut eius lidero plastis trand lined voluptas dolorem ut
-                        voluptas</h3>
+                    <h3>{{project.short_description}}</h3>
                     <p>
-                        Blanditiis voluptate odit ex error ea sed officiis deserunt. Cupiditate non consequatur et
-                        doloremque consequuntur. Accusantium labore reprehenderit error temporibus saepe perferendis
-                        fuga doloribus vero. Qui omnis quo sit. Dolorem architecto eum et quos deleniti officia qui.
-                    </p>
-                    <p>
-                        Est reprehenderit voluptatem necessitatibus asperiores neque sed ea illo. Deleniti quam sequi
-                        optio iste veniam repellat odit. Aut pariatur itaque nesciunt fuga.
-                    </p>
-                    <p>
-                        Sunt rem odit accusantium omnis perspiciatis officia. Laboriosam aut consequuntur recusandae
-                        mollitia doloremque est architecto cupiditate ullam. Quia est ut occaecati fuga. Distinctio ex
-                        repellendus eveniet velit sint quia sapiente cumque. Et ipsa perferendis ut nihil. Laboriosam
-                        vel voluptates tenetur nostrum. Eaque iusto cupiditate et totam et quia dolorum in. Sunt
-                        molestiae ipsum at consequatur vero. Architecto ut pariatur autem ad non cumque nesciunt qui
-                        maxime. Sunt eum quia impedit dolore alias explicabo ea.
+                        {{project.full_description}}
                     </p>
                 </div>
 

@@ -18,7 +18,7 @@ class CategoryModel(models.Model):
 
 class ProjectModel(models.Model):
     name = models.CharField(max_length=50)
-    logo = models.ImageField(upload_to='project-logos', default='default-image.png')
+    logo = models.ImageField(upload_to='project-logos', null=False, blank=False)
     short_description = models.CharField(max_length=150, null=True, blank=True)
     category = models.ManyToManyField(CategoryModel, related_name='projects')
     full_description = models.TextField(null=True, blank=True)
@@ -52,7 +52,9 @@ class SkillsAppliedModel(models.Model):
 class ProjectInformationModel(models.Model):
     title = models.CharField(max_length=25)
     text = models.CharField(max_length=125)
+    is_url = models.BooleanField(default=False)
     project = models.ForeignKey(ProjectModel, on_delete=models.CASCADE, related_name='infos')
+
 
     def __str__(self):
         return self.title
