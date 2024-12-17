@@ -26,5 +26,6 @@ class ProjectDetailsView(TemplateView):
         project_id = self.kwargs.get('id')
         project = ProjectModel.objects.get(id=project_id)
         context['project'] = project
+        context['social_media_apps'] = SocialMediaModel.objects.all()
         context['categories'] = CategoryModel.objects.filter(to_display=True)
         return context

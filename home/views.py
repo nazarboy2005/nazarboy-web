@@ -13,7 +13,7 @@ class HomeView(TemplateView):
         context['first_title'] = context['titles'][0] if context['titles'] else "No one"
         context['quote'] = data.quote
         context['image'] = data.image
-        context['social_media_apps'] = data.social_media_apps.all()
+        context['social_media_apps'] = SocialMediaModel.objects.all()
 
         return context
 

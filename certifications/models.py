@@ -21,11 +21,12 @@ class CategoriesModel(models.Model):
 
 class CertificationsModel(models.Model):
     title = models.CharField(max_length=125)
-    photo = models.ImageField(upload_to='certifications')
+    image = models.ImageField(upload_to='certifications')
     description = models.TextField()
     category = models.ForeignKey(CategoriesModel, on_delete=models.CASCADE, related_name='certifications')
     given_time = models.DateField(default=timezone.now)
     given_by = models.CharField(max_length=100)
+    link = models.URLField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
