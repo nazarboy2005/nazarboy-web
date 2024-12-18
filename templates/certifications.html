@@ -35,14 +35,14 @@
           <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
             <li data-filter="*" class="filter-active">All</li>
             {% for category in categories %}
-            <li data-filter=".filter-{{category.name}}">{{category.name}}</li>
+            <li data-filter=".filter-{{category.joined_name}}">{{category.name}}</li>
             {% endfor %}
           </ul><!-- End Certifications Filters -->
 
           <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
             {% for certification in data %}
 
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-{{certification.category.name}}">
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-{{certification.category.joined_name}}">
               <div class="portfolio-content h-100">
                 <img src="{{certification.image.url}}" class="img-fluid" alt="">
                 <div class="portfolio-info">

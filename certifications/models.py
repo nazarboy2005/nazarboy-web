@@ -7,10 +7,11 @@ from django.db import models
 class CategoriesModel(models.Model):
     name = models.CharField(max_length=25)
     to_display = models.BooleanField(default=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def joined_name(self):
+        return '_'.join(self.name.split(' '))
     def __str__(self):
         return self.name
 
