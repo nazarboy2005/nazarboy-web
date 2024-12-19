@@ -2,16 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-
+from .models import ContactInfoModel, TelegramDetailsModel
+from home.models import SocialMediaModel
 import requests
 
-
-class ContactView(TemplateView):
-    template_name = 'contact.html'
-
-
-BOT_TOKEN = "8165026263:AAEdbuMuWrqvMN_xvQWJ70kRi2r49h6cEJ0"
-CHAT_ID = "1377513530"
+BOT_TOKEN = TelegramDetailsModel.objects.first().token
+CHAT_ID = TelegramDetailsModel.objects.first().telegram_id
 
 
 def send_telegram_message(chat_id, message, bot_token):
@@ -24,7 +20,6 @@ def send_telegram_message(chat_id, message, bot_token):
     requests.post(url, data=data)
 
 
-@csrf_exempt
 def contact_view(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -44,8 +39,8 @@ def contact_view(request):
             send_telegram_message(CHAT_ID, telegram_message, BOT_TOKEN)
             messages.success(request, "Your message has been sent successfully!")
         except Exception as e:
-            messages.error(request, "An error occurred while sending your message. Please try again later.")
+            messages.error(request, f"An error occurred: {e}")
+        return redirect("contact:send-message")
 
-        return redirect("contact:home")
-
-    return render(request, "contact.html")
+    return render(request, "contact.html",
+                  {"data": ContactInfoModel.objects.first(), 'social_media_apps': SocialMediaModel.objects.all()})
