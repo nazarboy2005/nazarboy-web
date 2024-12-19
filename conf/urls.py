@@ -25,7 +25,7 @@ urlpatterns = [
     path('resume/', include('resume.urls', namespace='resume')),
     path('certifications/', include('certifications.urls', namespace='certifications')),
     path('projects/', include('projects.urls', namespace='projects')),
-
+    path('contact/', include('contact.urls', namespace='contact')),
 ]
 
 

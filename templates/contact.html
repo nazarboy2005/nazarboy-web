@@ -81,9 +81,20 @@
                 </div><!-- End Info Item -->
 
             </div>
+            {% if messages %}
+            <div class="container">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
 
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up"
+            <form action="{% url 'contact:send-message' %}" method="post" class="php-email-form" data-aos="fade-up"
                   data-aos-delay="600">
+                {% csrf_token %}
                 <div class="row gy-4">
 
                     <div class="col-md-6">
