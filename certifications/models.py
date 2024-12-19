@@ -1,6 +1,7 @@
 import datetime
 from django.utils import timezone
-
+from django.core.exceptions import ValidationError
+import os
 from django.db import models
 
 
@@ -12,6 +13,7 @@ class CategoriesModel(models.Model):
 
     def joined_name(self):
         return '_'.join(self.name.split(' '))
+
     def __str__(self):
         return self.name
 
@@ -20,9 +22,17 @@ class CategoriesModel(models.Model):
         verbose_name_plural = 'Categories'
 
 
+def validate_file_extension(value):
+    valid_extensions = ['.png', '.jpg', '.jpeg', '.pdf']
+    ext = os.path.splitext(value.name)[1]  # Extract file extension
+    if ext.lower() not in valid_extensions:
+        raise ValidationError(f'Unsupported file extension. Allowed extensions are: {", ".join(valid_extensions)}')
+
+
 class CertificationsModel(models.Model):
     title = models.CharField(max_length=125)
     image = models.ImageField(upload_to='certifications')
+    file_to_download = models.FileField(upload_to='certificates-files', null=True, blank=True, validators=[validate_file_extension])
     description = models.TextField()
     category = models.ForeignKey(CategoriesModel, on_delete=models.CASCADE, related_name='certifications')
     given_time = models.DateField(default=timezone.now)

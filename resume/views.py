@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from resume.models import SummaryModel, ResumePageModel
-from home.models import HomePageModel
+from home.models import SocialMediaModel
 
 
 class ResumeView(TemplateView):
@@ -14,12 +14,9 @@ class ResumeView(TemplateView):
         if summary:
             summary = summary.first()
 
-
-        social_media_apps = HomePageModel.objects.first().social_media_apps.all()
+        social_media_apps = SocialMediaModel.objects.all()
         context['social_media_apps'] = social_media_apps
         context['resume_data'] = resume_data
         context['summary'] = summary
 
         return context
-
-
