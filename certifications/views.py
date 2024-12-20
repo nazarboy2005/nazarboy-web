@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from .models import CertificationsModel, CategoriesModel
+from .models import CertificationsModel, CategoriesModel, BioModel
 from home.models import SocialMediaModel
 
 from django.http import HttpResponse, Http404
@@ -17,6 +17,8 @@ class CertificationsView(TemplateView):
         context['data'] = data
         context['social_media_apps'] = SocialMediaModel.objects.all()
         context['categories'] = CategoriesModel.objects.all()
+        context['bio'] = BioModel.objects.first().bio
+
 
         return context
 
@@ -30,6 +32,8 @@ class CertificationDetailsView(TemplateView):
         data = CertificationsModel.objects.filter(id=certificate_id).first()
         context['data'] = data
         context['social_media_apps'] = SocialMediaModel.objects.all()
+        context['bio'] = BioModel.objects.first().bio
+
         return context
 
 

@@ -1,6 +1,13 @@
 from django.db import models
 
 
+class BioModel(models.Model):
+    bio = models.TextField()
+
+    class Meta:
+        verbose_name = 'Project Bio'
+        verbose_name_plural = 'Project Bios'
+
 class CategoryModel(models.Model):
     name = models.CharField(max_length=25)
     to_display = models.BooleanField(default=True)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from projects.models import ProjectModel, CategoryModel, ProjectImageModel, ProjectInformationModel, SkillsAppliedModel
+from projects.models import ProjectModel, CategoryModel, ProjectImageModel, ProjectInformationModel, SkillsAppliedModel, BioModel
 
 
 @admin.register(CategoryModel)
@@ -25,3 +25,8 @@ class SkillsAppliedModelInline(admin.StackedInline):
 class ProjectModelAdmin(admin.ModelAdmin):
     list_display = ['name', 'created_at']
     inlines = [ProjectImageModelInline, ProjectInformationModelInline, SkillsAppliedModelInline]
+
+
+@admin.register(BioModel)
+class BioModelAdmin(admin.ModelAdmin):
+    list_display = ['bio']
