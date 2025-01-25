@@ -73,9 +73,3 @@ nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
-
-# Ignore database
-*.sqlite3
-
-# Python egg info
-*.egg-info/
