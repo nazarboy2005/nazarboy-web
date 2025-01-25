@@ -43,64 +43,74 @@
                         <h3>Project information</h3>
                         <ul>
                             {% for info in project.infos.all %}
-                            {% if info.is_url == True %}
-                            <li><strong>{{info.title}}</strong>: <a href="http://{{ info.text }}" target="_blank">{{info.text}}</a></li>
+                            {% if info.is_url %}
+                            <li>
+                                <strong>{{ info.title }}</strong>:
+                                <a href="{{ info.text|default_if_none:'' }}" target="_blank">
+                                    {{ info.text }}
+                                </a>
+                            </li>
                             {% else %}
-                            <li><strong>{{info.title}}</strong>:{{info.text}}</li>
+                            <li>
+                                <strong>{{ info.title }}</strong>:
+                                {{ info.text|striptags|linebreaksbr|default_if_none:"N/A" }}
+                            </li>
                             {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
-                    <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
-                        <h3>Applied Skills</h3>
-                        <ul>
-                            {% for skill in project.skills.all %}
-                            <li><i class="bi bi-check-circle"></i> <span>{{skill.skill}}</span>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+
                 </div>
-
-                <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
-
-                    <div class="portfolio-details-slider swiper init-swiper">
-
-                        <script type="application/json" class="swiper-config">
-                            {
-                                "loop": true,
-                                "speed": 600,
-                                "autoplay": {
-                                    "delay": 5000
-                                },
-                                "slidesPerView": "auto",
-                                "pagination": {
-                                    "el": ".swiper-pagination",
-                                    "type": "bullets",
-                                    "clickable": true
-                                }
-                            }
-                        </script>
-
-                        <div class="swiper-wrapper align-items-center">
-                            {% for image in project.images.all %}
-                            <div class="swiper-slide">
-                                <img src="{{image.image.url}}" alt="">
-                            </div>
-
-                            {% endfor %}
-
-                        </div>
-                        <div class="swiper-pagination"></div>
-                    </div>
-                    <br>
-                    <h3>{{project.short_description}}</h3>
-                    <p>
-                        {{project.full_description}}
-                    </p>
+                <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Applied Skills</h3>
+                    <ul>
+                        {% for skill in project.skills.all %}
+                        <li><i class="bi bi-check-circle"></i> <span>{{skill.skill}}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
                 </div>
-
             </div>
+
+            <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+
+                <div class="portfolio-details-slider swiper init-swiper">
+
+                    <script type="application/json" class="swiper-config">
+                        {
+                            "loop": true,
+                            "speed": 600,
+                            "autoplay": {
+                                "delay": 5000
+                            },
+                            "slidesPerView": "auto",
+                            "pagination": {
+                                "el": ".swiper-pagination",
+                                "type": "bullets",
+                                "clickable": true
+                            }
+                        }
+                    </script>
+
+                    <div class="swiper-wrapper align-items-center">
+                        {% for image in project.images.all %}
+                        <div class="swiper-slide">
+                            <img src="{{image.image.url}}" alt="">
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <br>
+                <h3>{{project.short_description}}</h3>
+                <p>
+                    {{project.full_description}}
+                </p>
+            </div>
+
+        </div>
 
         </div>
 
