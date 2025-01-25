@@ -24,6 +24,10 @@ __pycache__/
 env/
 venv/
 
+# Static and media files
+staticfiles/
+media/
+
 # VS Code settings
 .vscode/
 
@@ -75,3 +79,6 @@ coverage.xml
 
 # Ignore database
 *.sqlite3
+
+# Python egg info
+*.egg-info/
