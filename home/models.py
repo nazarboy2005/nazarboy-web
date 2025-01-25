@@ -70,17 +70,17 @@ class AboutPageModel(models.Model):
     text_above_bio = models.TextField()
     text_below_bio = models.TextField()
 
-    text_for_smile = models.CharField(max_length=20)
-    number_for_smile = models.IntegerField()
+    text_for_smile = models.CharField(max_length=20, null=True, blank=True)
+    number_for_smile = models.IntegerField(null=True, blank=True)
 
-    text_for_notebook = models.CharField(max_length=20)
-    number_for_notebook = models.IntegerField()
+    text_for_notebook = models.CharField(max_length=20, null=True, blank=True)
+    number_for_notebook = models.IntegerField(null=True, blank=True)
 
-    text_for_headphones = models.CharField(max_length=20)
-    number_for_headphones = models.IntegerField()
+    text_for_headphones = models.CharField(max_length=20,null=True, blank=True)
+    number_for_headphones = models.IntegerField(null=True, blank=True)
 
-    text_for_people = models.CharField(max_length=20)
-    number_for_people = models.IntegerField()
+    text_for_people = models.CharField(max_length=20,null=True, blank=True)
+    number_for_people = models.IntegerField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -144,7 +144,7 @@ class InterestsModel(models.Model):
 
 class TestimonialsModel(models.Model):
     name = models.CharField(max_length=25, null=True)
-    profession_or_relation = models.CharField(max_length=20)
+    profession_or_relation = models.CharField(max_length=125)
     image = models.ImageField(upload_to='about-testimonials', default='about-testimonials/default.png')
     text = models.TextField(null=True)
     should_show = models.BooleanField(default=True)
