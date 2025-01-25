@@ -24,9 +24,6 @@ __pycache__/
 env/
 venv/
 
-# Static and media files
-staticfiles/
-media/
 
 # VS Code settings
 .vscode/
