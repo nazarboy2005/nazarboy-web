@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY','django-insecure-%)g120#i5yh@23=+31pcp*ar^35
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['nazarboy-analyst.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['nazarboy-resume.onrender.com', 'localhost', '127.0.0.1']
 
 # Application definition
 
