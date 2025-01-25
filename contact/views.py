@@ -6,8 +6,8 @@ from .models import ContactInfoModel, TelegramDetailsModel
 from home.models import SocialMediaModel
 import requests
 
-BOT_TOKEN = TelegramDetailsModel.objects.first().token
-CHAT_ID = TelegramDetailsModel.objects.first().telegram_id
+BOT_TOKEN = '8165026263:AAEdbuMuWrqvMN_xvQWJ70kRi2r49h6cEJ0'
+CHAT_ID = 1377513530
 
 
 def send_telegram_message(chat_id, message, bot_token):
