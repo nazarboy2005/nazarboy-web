@@ -9,9 +9,13 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
-from pathlib import Path
 import os
+from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,14 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
-SECRET_KEY = os.getenv('SECRET_KEY',
-                       'django-insecure-%)g120#i5yh@23=+31pcp*ar^35ge0--(nw!-#^r897@4(x*9@')  # Default only for local dev
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-ALLOWED_HOSTS = ['nazarboy-analyst.onrender.com', 'localhost', '127.0.0.1']
-
 
 # Application definition
 
@@ -82,8 +78,12 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': "django.db.backends.postgresql",
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD':os.getenv('DB_PWD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT':os.getenv('DB_PORT'),
     }
 }
 
@@ -129,3 +129,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+DEBUG = os.getenv('DEBUG')
+SECRET_KEY = os.getenv('SECRET_KEY')
+ALLOWED_HOSTS = ["127.0.0.1","console.choreo.dev"]
+
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+CHAT_ID = os.getenv('CHAT_ID')
+
+
+

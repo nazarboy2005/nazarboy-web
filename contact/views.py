@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView
-from .models import ContactInfoModel, TelegramDetailsModel
+from .models import ContactInfoModel
 from home.models import SocialMediaModel
 import requests
+from django.conf import settings
 
-BOT_TOKEN = '8165026263:AAEdbuMuWrqvMN_xvQWJ70kRi2r49h6cEJ0'
-CHAT_ID = 1377513530
-
+bot_token = settings.BOT_TOKEN
+chat_id = settings.CHAT_ID
 
 def send_telegram_message(chat_id, message, bot_token):
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"

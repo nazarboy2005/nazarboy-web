@@ -12,15 +12,3 @@ class ContactInfoModel(models.Model):
     class Meta:
         verbose_name = 'Contact Info'
         verbose_name_plural = 'Contact Infos'
-
-
-class TelegramDetailsModel(models.Model):
-    token = models.TextField()
-    telegram_id = models.CharField(max_length=25)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name = 'Telegram Info'
-        verbose_name_plural = 'Telegram Infos'
