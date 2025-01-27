@@ -35,11 +35,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+
+    #third party apps
+    'cloudinary_storage',
+    'cloudinary',
+
+    #my apps
     'home',
     'resume',
     'certifications',
     'projects',
     'contact',
+
+
+
 ]
 
 MIDDLEWARE = [
@@ -142,3 +151,10 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dpurqyhcn',
+    'API_KEY': '921199611594343',
+    'API_SECRET': 'GIcnH-kzCGuQDxI9sFy9r-sKfb0',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
