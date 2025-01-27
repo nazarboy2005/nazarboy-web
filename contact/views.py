@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import ContactInfoModel
@@ -5,8 +7,8 @@ from home.models import SocialMediaModel
 import requests
 from django.conf import settings
 
-bot_token = settings.BOT_TOKEN
-chat_id = settings.CHAT_ID
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
 
 def send_telegram_message(chat_id, message, bot_token):
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
