@@ -9,7 +9,7 @@ class HomePageModel(models.Model):
     quote = models.TextField(null=True)
 
     image = models.ImageField(upload_to='home-image',
-                              help_text="Image size should be 1920x1080 pixels. You can do it here: 👉https://imageresizer.com/👈")
+                              help_text="Image size should be 1920x1080 pixels. You can do it here: 👉https://imageresizer.com/👈 *** SIZE: 1920*1080 ***")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
