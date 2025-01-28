@@ -6,6 +6,7 @@ from home.models import SocialMediaModel
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 import os
+import requests
 
 
 class CertificationsView(TemplateView):
@@ -37,23 +38,34 @@ class CertificationDetailsView(TemplateView):
         return context
 
 
-
-
 def download_certificate_view(request, pk):
     certificate = get_object_or_404(CertificationsModel, id=pk)
 
-    file_path = certificate.file_to_download.path
-    print(file_path)
-    file_extension = os.path.splitext(file_path)[1].lower()
-    if file_extension == '.pdf':
-        content_type = 'application/pdf'
-    elif file_extension in ['.jpg', '.jpeg']:
-        content_type = 'image/jpeg'
-    else:
-        content_type = 'image/png'
+    # Get Cloudinary file URL
+    file_url = certificate.file_to_download.url
+    if not file_url:
+        return HttpResponse("No file available for download.", status=404)
 
-    with open(file_path, 'rb') as f:
-        response = HttpResponse(f.read(), content_type=content_type)
-        response['Content-Disposition'] = f'attachment; filename="{certificate.title}.{file_extension}"'
-        return response
+    # Extract file extension
+    file_extension = os.path.splitext(file_url)[1].lower()
 
+    # Determine Content-Type
+    content_type_map = {
+        '.pdf': 'application/pdf',
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.png': 'image/png'
+    }
+    content_type = content_type_map.get(file_extension, 'application/octet-stream')
+
+    # Download the file from Cloudinary
+    response = requests.get(file_url)
+    if response.status_code != 200:
+        return HttpResponse("Failed to fetch the file from Cloudinary.", status=500)
+
+    # Return file as attachment
+    filename = f"{certificate.title}{file_extension}"  # Ensuring no duplicate dot
+    http_response = HttpResponse(response.content, content_type=content_type)
+    http_response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    return http_response
