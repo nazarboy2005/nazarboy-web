@@ -7,7 +7,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 import os
 import requests
-
+import cloudinary
 
 class CertificationsView(TemplateView):
     template_name = 'certifications.html'
@@ -41,37 +41,50 @@ class CertificationDetailsView(TemplateView):
 def download_certificate_view(request, pk):
     certificate = get_object_or_404(CertificationsModel, id=pk)
 
-    # ✅ Get the Cloudinary File URL
-    file_url = certificate.file_to_download.url
-    if not file_url:
+    # ✅ Get the Cloudinary File Public ID
+    file_public_id = certificate.file_to_download.public_id  # Get the public ID from CloudinaryField
+    if not file_public_id:
         return HttpResponse("No file available for download.", status=404)
 
-    # ✅ If the file is raw, modify the URL to ensure direct access
-    if "/raw/upload/" in file_url:
-        file_url = file_url.replace("/raw/upload/", "/raw/upload/fl_attachment/")
+    # ✅ Generate a Signed URL for Private Files
+    signed_url = cloudinary.utils.cloudinary_url(
+        file_public_id,
+        resource_type="raw",  # Because it's a PDF
+        secure=True,
+        sign_url=True  # This signs the URL to grant temporary access
+    )[0]
 
-    print(f"Attempting to download from: {file_url}")  # Debugging output
+    print(f"Attempting to download from: {signed_url}")  # Debugging output
 
-    # ✅ Fetch the file from Cloudinary
-    response = requests.get(file_url, stream=True)
-    if response.status_code != 200:
-        return HttpResponse("Failed to fetch the file from Cloudinary.", status=500)
+    try:
+        # ✅ Fetch the file from Cloudinary
+        response = requests.get(signed_url, stream=True)
 
-    # ✅ Extract file extension & format filename
-    file_extension = file_url.split('.')[-1]  # Extracting file extension from URL
-    filename = f"{certificate.title}.{file_extension}"
+        # ✅ Check if the request is successful
+        if response.status_code != 200:
+            print(f"Cloudinary request failed! Status Code: {response.status_code}")
+            print(f"Response Text: {response.text}")  # Print error response
+            return HttpResponse("Failed to fetch the file from Cloudinary.", status=500)
 
-    # ✅ Set the correct content type
-    content_type_map = {
-        'pdf': 'application/pdf',
-        'jpg': 'image/jpeg',
-        'jpeg': 'image/jpeg',
-        'png': 'image/png'
-    }
-    content_type = content_type_map.get(file_extension.lower(), 'application/octet-stream')
+        # ✅ Extract file extension & format filename
+        file_extension = file_public_id.split('.')[-1]  # Extracting file extension from Public ID
+        filename = f"{certificate.title}.{file_extension}"
 
-    # ✅ Return file as an attachment for download
-    http_response = HttpResponse(response.content, content_type=content_type)
-    http_response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        # ✅ Set the correct content type
+        content_type_map = {
+            'pdf': 'application/pdf',
+            'jpg': 'image/jpeg',
+            'jpeg': 'image/jpeg',
+            'png': 'image/png'
+        }
+        content_type = content_type_map.get(file_extension.lower(), 'application/octet-stream')
 
-    return http_response
+        # ✅ Return file as an attachment for download
+        http_response = HttpResponse(response.content, content_type=content_type)
+        http_response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+        return http_response
+
+    except requests.exceptions.RequestException as e:
+        print(f"Exception during file download: {e}")
+        return HttpResponse("An error occurred while fetching the file.", status=500)
