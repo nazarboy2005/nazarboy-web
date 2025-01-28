@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 import os
 from django.db import models
+from cloudinary.models import CloudinaryField
+from django.core.validators import URLValidator
 
 
 class BioModel(models.Model):
@@ -40,20 +42,40 @@ def validate_file_extension(value):
 
 class CertificationsModel(models.Model):
     title = models.CharField(max_length=125)
-    image = models.ImageField(upload_to='certifications')
-    file_to_download = models.FileField(upload_to='certificates-files', null=True, blank=True, validators=[validate_file_extension])
+
+    # Allowing either an image or a file
+    image = CloudinaryField('image', null=True, blank=True)  # For photos
+    file_to_download = CloudinaryField(
+        resource_type='raw',
+        null=True,
+        blank=True,
+        validators=[validate_file_extension]
+    )  # For PDFs, ZIPs, etc.
+
     description = models.TextField()
-    category = models.ForeignKey(CategoriesModel, on_delete=models.CASCADE, related_name='certifications')
+    category = models.ForeignKey(
+        CategoriesModel,
+        on_delete=models.PROTECT,
+        related_name='certifications'
+    )
     given_time = models.DateField(default=timezone.now)
     given_by = models.CharField(max_length=100)
-    link = models.URLField(null=True, blank=True)
+    link = models.URLField(null=True, blank=True, validators=[URLValidator(message="Enter a valid URL.")])
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Certification"
+        verbose_name_plural = "Certifications"
+        ordering = ['-given_time']
+
     def __str__(self):
         return self.title
 
-    class Meta:
-        verbose_name = 'Certification'
-        verbose_name_plural = 'Certifications'
+        # Custom validation: Ensure at least one of the fields (image or file_to_download) is filled
+
+    def clean(self):
+        if not self.image and not self.file_to_download:
+            raise ValidationError("You must upload either an image or a file.")
+
