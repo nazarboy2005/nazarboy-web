@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from cloudinary.models import CloudinaryField
 
 # ----------------Home Page Model----------------#
 
@@ -8,9 +9,9 @@ class HomePageModel(models.Model):
     name = models.CharField(max_length=30)
     quote = models.TextField(null=True)
 
-    image = models.ImageField(upload_to='home-image',
-                              help_text="Image size should be 1920x1080 pixels. You can do it here: 👉https://imageresizer.com/👈 *** SIZE: 1920*1080 ***")
-
+    # image = models.ImageField(upload_to='home-image',
+    #                           help_text="Image size should be 1920x1080 pixels. You can do it here: 👉https://imageresizer.com/👈 *** SIZE: 1920*1080 ***")
+    image = CloudinaryField('image', help_text="Image size should be 1920x1080 pixels. You can do it here: 👉https://imageresizer.com/👈 *** SIZE: 1920*1080 ***")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

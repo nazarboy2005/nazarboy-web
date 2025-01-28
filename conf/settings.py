@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+import cloudinary.uploader
+import cloudinary.api
 import os
 from pathlib import Path
 from dotenv import load_dotenv
@@ -138,7 +140,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'assets']
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -152,11 +153,17 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dpurqyhcn',
-    'API_KEY': '921199611594343',
-    'API_SECRET': 'GIcnH-kzCGuQDxI9sFy9r-sKfb0',
-}
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': 'dpurqyhcn',
+#     'API_KEY': '921199611594343',
+#     'API_SECRET': 'GIcnH-kzCGuQDxI9sFy9r-sKfb0',
+# }
+
+cloudinary.config(
+    cloud_name = "dpurqyhcn",
+    api_key = "921199611594343",
+    api_secret = "GIcnH-kzCGuQDxI9sFy9r-sKfb0",
+)
 
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
