@@ -41,10 +41,14 @@ class CertificationDetailsView(TemplateView):
 def download_certificate_view(request, pk):
     certificate = get_object_or_404(CertificationsModel, id=pk)
 
-    # ✅ Get Cloudinary file URL
+    # ✅ Get the Cloudinary File URL
     file_url = certificate.file_to_download.url
     if not file_url:
         return HttpResponse("No file available for download.", status=404)
+
+    # ✅ If the file is raw, modify the URL to ensure direct access
+    if "/raw/upload/" in file_url:
+        file_url = file_url.replace("/raw/upload/", "/raw/upload/fl_attachment/")
 
     print(f"Attempting to download from: {file_url}")  # Debugging output
 
@@ -53,7 +57,7 @@ def download_certificate_view(request, pk):
     if response.status_code != 200:
         return HttpResponse("Failed to fetch the file from Cloudinary.", status=500)
 
-    # ✅ Extract filename and file extension
+    # ✅ Extract file extension & format filename
     file_extension = file_url.split('.')[-1]  # Extracting file extension from URL
     filename = f"{certificate.title}.{file_extension}"
 
