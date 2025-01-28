@@ -160,9 +160,9 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 # }
 
 cloudinary.config(
-    cloud_name = "dpurqyhcn",
-    api_key = "921199611594343",
-    api_secret = "GIcnH-kzCGuQDxI9sFy9r-sKfb0",
+    cloud_name = os.getenv('CLOUD_NAME'),
+    api_key = '921199611594343',
+    api_secret = os.getenv('API_SECRET'),
 )
 
 

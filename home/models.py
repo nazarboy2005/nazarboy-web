@@ -40,10 +40,10 @@ class TitleModel(models.Model):
 
 class SocialMediaModel(models.Model):
     choices = (
-        ('instagram', 'instagram'),
         ('telegram', 'telegram'),
+        ('github', 'github'),
+        ('instagram', 'instagram'),
         ('facebook', 'facebook'),
-        ('linkedin', 'linkedin'),
     )
 
     social_media_app = models.CharField(max_length=11, choices=choices)
@@ -67,7 +67,7 @@ class AboutPageModel(models.Model):
     name = models.CharField(max_length=30)
     bio = models.TextField()
     profession = models.CharField(max_length=50)
-    image_on_the_left = models.ImageField(upload_to='about-personal')
+    image_on_the_left = CloudinaryField('image')
     text_above_bio = models.TextField()
     text_below_bio = models.TextField()
 
@@ -146,7 +146,7 @@ class InterestsModel(models.Model):
 class TestimonialsModel(models.Model):
     name = models.CharField(max_length=25, null=True)
     profession_or_relation = models.CharField(max_length=125)
-    image = models.ImageField(upload_to='about-testimonials', default='about-testimonials/default.png')
+    image = CloudinaryField('image', default='about-testimonials-default')
     text = models.TextField(null=True)
     should_show = models.BooleanField(default=True)
     person = models.ForeignKey(AboutPageModel, on_delete=models.CASCADE, related_name='testimonials')
