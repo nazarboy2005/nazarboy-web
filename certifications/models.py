@@ -1,7 +1,4 @@
-import datetime
 from django.utils import timezone
-from django.core.exceptions import ValidationError
-import os
 from django.db import models
 from cloudinary.models import CloudinaryField
 from django.core.validators import URLValidator
@@ -33,24 +30,11 @@ class CategoriesModel(models.Model):
         verbose_name_plural = 'Categories'
 
 
-def validate_file_extension(value):
-    valid_extensions = ['.png', '.jpg', '.jpeg', '.pdf']
-    ext = os.path.splitext(value.name)[1]  # Extract file extension
-    if ext.lower() not in valid_extensions:
-        raise ValidationError(f'Unsupported file extension. Allowed extensions are: {", ".join(valid_extensions)}')
-
 
 class CertificationsModel(models.Model):
     title = models.CharField(max_length=125)
 
-    # Allowing either an image or a file
     image = CloudinaryField('image', null=True, blank=True)  # For photos
-    file_to_download = CloudinaryField(
-        resource_type='raw',
-        null=True,
-        blank=True,
-        validators=[validate_file_extension]
-    )  # For PDFs, ZIPs, etc.
 
     description = models.TextField()
     category = models.ForeignKey(
@@ -72,10 +56,4 @@ class CertificationsModel(models.Model):
 
     def __str__(self):
         return self.title
-
-        # Custom validation: Ensure at least one of the fields (image or file_to_download) is filled
-
-    def clean(self):
-        if not self.image and not self.file_to_download:
-            raise ValidationError("You must upload either an image or a file.")
 
