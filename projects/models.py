@@ -43,7 +43,7 @@ class ProjectModel(models.Model):
 
 
 class SkillsAppliedModel(models.Model):
-    skill = models.CharField(max_length=25)
+    skill = models.CharField(max_length=50)
     project = models.ForeignKey(ProjectModel, on_delete=models.CASCADE, related_name='skills')
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -59,7 +59,7 @@ class SkillsAppliedModel(models.Model):
 
 class ProjectInformationModel(models.Model):
     title = models.CharField(max_length=25)
-    text = models.CharField(max_length=125)
+    text = models.CharField(max_length=200)
     is_url = models.BooleanField(default=False)
     project = models.ForeignKey(ProjectModel, on_delete=models.CASCADE, related_name='infos')
 

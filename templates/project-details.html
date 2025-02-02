@@ -1,5 +1,6 @@
 {% extends 'bases/base.html' %}
 {% load static %}
+
 {% block content %}
 <main class="main">
 
@@ -39,9 +40,23 @@
                             <li>
                                 <strong>{{ info.title }}</strong>:
                                 {% if info.is_url %}
-                                <a href="{{ info.text|default_if_none:'' }}" target="_blank">{{ info.text }}</a>
+                                    <a href="{{ info.text|default_if_none:'' }}" target="_blank">
+                                        {% if "github" in info.text %}
+                                            🔗 View on GitHub
+                                        {% elif "tableau" in info.text %}
+                                            📊 Explore on Tableau
+                                        {% elif "kaggle" in info.text %}
+                                            📈 Check it on Kaggle
+                                        {% elif "linkedin" in info.text %}
+                                            🔗 Visit LinkedIn
+                                        {% elif "medium" in info.text %}
+                                            📝 Read on Medium
+                                        {% else %}
+                                            🔗 Visit Project
+                                        {% endif %}
+                                    </a>
                                 {% else %}
-                                {{ info.text|striptags|linebreaksbr|default_if_none:"N/A" }}
+                                    {{ info.text|striptags|linebreaksbr|default_if_none:"N/A" }}
                                 {% endif %}
                             </li>
                             {% endfor %}
@@ -60,7 +75,13 @@
                     {% if project.short_description %}
                     <h3>{{ project.short_description }}</h3>
                     {% endif %}
-                    <p>{{ project.full_description }}</p>
+
+                    <!-- FIXED: Ensure line breaks & preserve formatting -->
+                    <p>{{ project.full_description|linebreaksbr }}</p>
+
+                    <!-- Alternative: Use `safe` filter if HTML formatting exists -->
+                    <!-- <p>{{ project.full_description|safe }}</p> -->
+
                 </div>
 
                 <!-- Right Section: Image Gallery -->
@@ -85,6 +106,7 @@
                         <div class="swiper-pagination"></div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section><!-- /Service Details Section -->
