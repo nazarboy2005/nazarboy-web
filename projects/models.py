@@ -1,4 +1,5 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 
 class BioModel(models.Model):
@@ -25,7 +26,7 @@ class CategoryModel(models.Model):
 
 class ProjectModel(models.Model):
     name = models.CharField(max_length=50)
-    logo = models.ImageField(upload_to='project-logos', null=False, blank=False)
+    logo = CloudinaryField('image', blank=True, default='mydxtkgk21jlefrsghkn')
     short_description = models.CharField(max_length=150, null=True, blank=True)
     category = models.ManyToManyField(CategoryModel, related_name='projects')
     full_description = models.TextField(null=True, blank=True)
@@ -72,7 +73,7 @@ class ProjectInformationModel(models.Model):
 
 
 class ProjectImageModel(models.Model):
-    image = models.ImageField(upload_to='project-images')
+    image = CloudinaryField('image')
     project = models.ForeignKey(ProjectModel, on_delete=models.CASCADE, related_name='images')
 
     class Meta:

@@ -103,8 +103,9 @@
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
-                <br>
+                <br>{% if project.short_description %}
                 <h3>{{project.short_description}}</h3>
+                {% endif %}
                 <p>
                     {{project.full_description}}
                 </p>

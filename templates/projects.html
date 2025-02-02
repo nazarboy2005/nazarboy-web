@@ -43,7 +43,9 @@
                         <a href="{% url 'projects:details' project.id %}" class="stretched-link">
                             <h3>{{project.name}}</h3>
                         </a>
+                        {% if project.short_description %}
                         <p>{{project.short_description}}</p>
+                        {% endif %}
                     </div>
                 </div><!-- End Service Item -->
                 {% endfor %}
