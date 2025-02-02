@@ -9,7 +9,7 @@ class ProjectsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data = ProjectModel.objects.filter(category__to_display=True).distinct()
+        data = ProjectModel.objects.filter(category__to_display=True).distinct().order_by('-created_at')
         context['data'] = data
         context['bio'] = BioModel.objects.first().bio
         social_media_apps = SocialMediaModel.objects.all()
