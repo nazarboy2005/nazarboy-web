@@ -10,7 +10,7 @@
                 <div class="row d-flex justify-content-center text-center">
                     <div class="col-lg-8">
                         <h1>Service Details</h1>
-                        <p class="mb-0">{{bio}}</p>
+                        <p class="mb-0">{{ bio }}</p>
                     </div>
                 </div>
             </div>
@@ -27,94 +27,66 @@
 
     <!-- Service Details Section -->
     <section id="service-details" class="service-details section">
-
         <div class="container">
-
             <div class="row gy-4">
 
-                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="services-list">
-                        {% for category in categories %}
-                        <a class="{% if category in project.category.all  %}active{%endif%}">{{category.name}}</a>
-                        {% endfor %}
-                    </div>
-
-                    <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
-                        <h3>Project information</h3>
+                <!-- Left Section: Project Information & Skills -->
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="portfolio-info">
+                        <h3>Project Information</h3>
                         <ul>
                             {% for info in project.infos.all %}
-                            {% if info.is_url %}
                             <li>
                                 <strong>{{ info.title }}</strong>:
-                                <a href="{{ info.text|default_if_none:'' }}" target="_blank">
-                                    {{ info.text }}
-                                </a>
-                            </li>
-                            {% else %}
-                            <li>
-                                <strong>{{ info.title }}</strong>:
+                                {% if info.is_url %}
+                                <a href="{{ info.text|default_if_none:'' }}" target="_blank">{{ info.text }}</a>
+                                {% else %}
                                 {{ info.text|striptags|linebreaksbr|default_if_none:"N/A" }}
+                                {% endif %}
                             </li>
-                            {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
 
-                </div>
-                <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
-                    <h3>Applied Skills</h3>
-                    <ul>
-                        {% for skill in project.skills.all %}
-                        <li><i class="bi bi-check-circle"></i> <span>{{skill.skill}}</span>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
-
-                <div class="portfolio-details-slider swiper init-swiper">
-
-                    <script type="application/json" class="swiper-config">
-                        {
-                            "loop": true,
-                            "speed": 600,
-                            "autoplay": {
-                                "delay": 5000
-                            },
-                            "slidesPerView": "auto",
-                            "pagination": {
-                                "el": ".swiper-pagination",
-                                "type": "bullets",
-                                "clickable": true
-                            }
-                        }
-                    </script>
-
-                    <div class="swiper-wrapper align-items-center">
-                        {% for image in project.images.all %}
-                        <div class="swiper-slide">
-                            <img src="{{image.image.url}}" alt="">
-                        </div>
-
-                        {% endfor %}
-
+                    <div class="portfolio-info">
+                        <h3>Applied Skills</h3>
+                        <ul>
+                            {% for skill in project.skills.all %}
+                            <li><i class="bi bi-check-circle"></i> <span>{{ skill.skill }}</span></li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                    <div class="swiper-pagination"></div>
+
+                    {% if project.short_description %}
+                    <h3>{{ project.short_description }}</h3>
+                    {% endif %}
+                    <p>{{ project.full_description }}</p>
                 </div>
-                <br>{% if project.short_description %}
-                <h3>{{project.short_description}}</h3>
-                {% endif %}
-                <p>
-                    {{project.full_description}}
-                </p>
+
+                <!-- Right Section: Image Gallery -->
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="portfolio-details-slider swiper init-swiper">
+                        <script type="application/json" class="swiper-config">
+                            {
+                                "loop": true,
+                                "speed": 600,
+                                "autoplay": { "delay": 5000 },
+                                "slidesPerView": "auto",
+                                "pagination": { "el": ".swiper-pagination", "type": "bullets", "clickable": true }
+                            }
+                        </script>
+                        <div class="swiper-wrapper align-items-center">
+                            {% for image in project.images.all %}
+                            <div class="swiper-slide">
+                                <img src="{{ image.image.url }}" alt="" class="img-fluid" style="width: 100%; height: auto; max-height: 600px;">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
             </div>
-
         </div>
-
-        </div>
-
     </section><!-- /Service Details Section -->
 
 </main>
