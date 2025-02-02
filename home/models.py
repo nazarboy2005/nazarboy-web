@@ -40,8 +40,9 @@ class TitleModel(models.Model):
 
 class SocialMediaModel(models.Model):
     choices = (
-        ('telegram', 'telegram'),
+        ('linkedin', 'linkedin'),
         ('github', 'github'),
+        ('telegram', 'telegram'),
         ('instagram', 'instagram'),
         ('facebook', 'facebook'),
     )
