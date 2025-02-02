@@ -18,6 +18,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path, include
+from conf.views import handler404
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,8 +29,7 @@ urlpatterns = [
     path('contact/', include('contact.urls', namespace='contact')),
 ]
 
-handler404 = 'conf.views.handler4045'
+handler404 = 'conf.views.handler404'
 
-
-urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
